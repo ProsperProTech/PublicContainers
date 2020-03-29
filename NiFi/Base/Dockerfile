@@ -40,9 +40,7 @@ ARG GID=${GID}
 RUN groupadd -g ${GID} nifi || groupmod -n nifi `getent group ${GID} | cut -d: -f1` \
     && useradd --shell /bin/bash -u ${UID} -g ${GID} -m nifi \
     && mkdir -p ${NIFI_BASE_DIR} \
-    && chown -R nifi:nifi ${NIFI_BASE_DIR} \
-    && apt-get update \
-    && apt-get install -y procps
+    && chown -R nifi:nifi ${NIFI_BASE_DIR}
 
 USER nifi
 
@@ -67,3 +65,11 @@ RUN curl -fSL ${BASE_URL}/${NIFI_BINARY_PATH} -o ${NIFI_BASE_DIR}/nifi-${NIFI_VE
 
 # Delete the nifi.properties file
 RUN rm ${NIFI_HOME}/conf/nifi.properties
+
+# Move the apt stuff to the end to benefit from caching the large nifi image
+USER root
+
+RUN apt-get update \
+    && apt-get install -y procps dumb-init
+
+USER nifi

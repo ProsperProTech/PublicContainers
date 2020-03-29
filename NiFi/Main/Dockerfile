@@ -37,4 +37,4 @@ RUN echo "#!/bin/sh\n" > $NIFI_HOME/bin/nifi-env.sh
 
 WORKDIR ${NIFI_HOME}
 
-CMD ["../scripts/start.sh"]
+CMD ["../scripts/init.sh"]

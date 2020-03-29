@@ -18,15 +18,13 @@ prdebug(){
 	fi
 }
 
-# Work around NiFi bug 4685 to work with a different location for conf directory.
+## Work around NiFi bug 4685 to work with a different location for conf directory.
 mv /opt/nifi/nifi-current/conf /opt/nifi/nifi-current/conf.moved
 ln -s ${CONF_DIR} /opt/nifi/nifi-current/conf
 chown -R nifi: /opt/nifi/nifi-current/conf
 chown -R nifi: ${CONF_DIR}
 
 makecert(){
-
-
 
 	mv "${HOSTNAME}"/keystore.jks "${NF_KEYS_PATH}"/keystore.jks
 	mv "${HOSTNAME}"/truststore.jks "${NF_KEYS_PATH}"/truststore.jks
@@ -46,29 +44,26 @@ makecert(){
 	export NIFI_SECURITY_TRUSTSTORETYPE
 	export NIFI_SECURITY_TRUSTSTORE
 	export NIFI_SECURITY_KEYSTORE
-
 }
 
 makeconfig(){
+#
+#	NIFI_WEB_PROXY_HOST="${HOSTNAME}:${NIFI_WEB_HTTPS_PORT},${NIFI_WEB_PROXY_HOST}"
 
-	# We need some variables wrangled
-	# TODO: FixMe - make HTTP and HTTPS versions
-	NIFI_WEB_PROXY_HOST="${HOSTNAME}:${NIFI_WEB_HTTPS_PORT},${NIFI_WEB_PROXY_HOST}"
+#	# Build the nifi.properties file, remove it if present
+#	if [[ -f ${conf_dir}/nifi.properties ]];then
+#		rm -f ${conf_dir}/nifi.properties
+#	fi
 
-	# Build the nifi.properties file, remove it if present
-	if [[ -f ${conf_dir}/nifi.properties ]];then
-		rm -f ${conf_dir}/nifi.properties
-	fi
-
-  # Build the other config files from envvars
-	${scripts_dir}/j2 --undefined "${NIFI_HOME}"/conf.moved/bootstrap.conf.j2 -o ${conf_dir}/bootstrap.conf
-	${scripts_dir}/j2 --undefined "${NIFI_HOME}"/conf.moved/nifi.properties.j2 -o ${conf_dir}/nifi.properties
-	${scripts_dir}/j2 --undefined "${NIFI_HOME}"/conf.moved/login-identity-providers.xml.j2 -o ${conf_dir}/login-identity-providers.xml
-	${scripts_dir}/j2 --undefined "${NIFI_HOME}"/conf.moved/authorizers.xml.j2 -o ${conf_dir}/authorizers.xml
-	${scripts_dir}/j2 --undefined "${NIFI_HOME}"/conf.moved/zookeeper.properties.j2 -o ${conf_dir}/zookeeper.properties
-  cp "${NIFI_HOME}"/conf.moved/bootstrap-notification-services.xml ${conf_dir}/bootstrap-notification-services.xml
-  cp "${NIFI_HOME}"/conf.moved/logback.xml ${conf_dir}/logback.xml
-  cp "${NIFI_HOME}"/conf.moved/state-management.xml ${conf_dir}/state-management.xml
+#  # Build the other config files from envvars
+#	${scripts_dir}/j2 --undefined "${NIFI_HOME}"/conf.moved/bootstrap.conf.j2 -o ${conf_dir}/bootstrap.conf
+#	${scripts_dir}/j2 --undefined "${NIFI_HOME}"/conf.moved/nifi.properties.j2 -o ${conf_dir}/nifi.properties
+#	${scripts_dir}/j2 --undefined "${NIFI_HOME}"/conf.moved/login-identity-providers.xml.j2 -o ${conf_dir}/login-identity-providers.xml
+#	${scripts_dir}/j2 --undefined "${NIFI_HOME}"/conf.moved/authorizers.xml.j2 -o ${conf_dir}/authorizers.xml
+#	${scripts_dir}/j2 --undefined "${NIFI_HOME}"/conf.moved/zookeeper.properties.j2 -o ${conf_dir}/zookeeper.properties
+#  cp "${NIFI_HOME}"/conf.moved/bootstrap-notification-services.xml ${conf_dir}/bootstrap-notification-services.xml
+#  cp "${NIFI_HOME}"/conf.moved/logback.xml ${conf_dir}/logback.xml
+#  cp "${NIFI_HOME}"/conf.moved/state-management.xml ${conf_dir}/state-management.xml
 }
 
 showconfig(){
@@ -101,7 +96,6 @@ fi
 
 
 # Run NiFi
-tail -F "${NIFI_HOME}/logs/nifi-app.log" &
 "${NIFI_HOME}/bin/nifi.sh" run &
 nifi_pid="$!"
 
