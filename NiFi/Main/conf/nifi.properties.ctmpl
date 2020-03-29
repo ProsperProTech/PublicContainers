@@ -1,4 +1,6 @@
 {{ $keypath := env "NIFI_PROPERTIES_KPATH" }}
+{{ $thishost := env "HOSTNAME" }}
+
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -144,7 +146,7 @@ nifi.web.jetty.working.directory={{ keyOrDefault (print $keypath "nifi.web.jetty
 nifi.web.jetty.threads={{ keyOrDefault (print $keypath "nifi.web.jetty.threads") "200" }}
 nifi.web.max.header.size={{ keyOrDefault (print $keypath "nifi.web.max.header.size") "16 KB" }}
 nifi.web.proxy.context.path={{ keyOrDefault (print $keypath "nifi.web.proxy.context.path") "" }}
-nifi.web.proxy.host={{ keyOrDefault (print $keypath "nifi.web.proxy.host") "" }}
+nifi.web.proxy.host={{ (print $thishost ":") }}{{ keyOrDefault (print $keypath "nifi.web.https.port") "9443" }}{{ (print ",") }}{{ (print "localhost:") }}{{ keyOrDefault (print $keypath "nifi.web.https.port") "9443" }}{{ (print ",") }}{{ keyOrDefault (print $keypath "nifi.web.proxy.host") "" }}
 
 # security properties #
 nifi.sensitive.props.key={{ keyOrDefault (print $keypath "nifi.sensitive.props.key") "" }}
