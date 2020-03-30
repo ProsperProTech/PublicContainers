@@ -105,13 +105,19 @@ template {
 # Get certificates
 ###
 template {
-    contents = ""
-    destination = "{{ printf \"%s/zookeeper.properties\" (env \"CNFDSTPATH\") | key }}"
+    source = "{{ printf \"%s/cert.ctmpl\" (env \"CNFDSTPATH\") | key }}"
+    destination = "{{ printf \"%s/cert.crt\" (env \"CNFDSTPATH\") | key }}"
 }
 
+template {
+    source = "{{ printf \"%s/ca.ctmpl\" (env \"CNFDSTPATH\") | key }}"
+    destination = "{{ printf \"%s/ca.crt\" (env \"CNFDSTPATH\") | key }}"
+}
 
-
-
+template {
+    source = "{{ printf \"%s/key.ctmpl\" (env \"CNFDSTPATH\") | key }}"
+    destination = "{{ printf \"%s/private_key.rsa\" (env \"CNFDSTPATH\") | key }}"
+}
 exec {
     command = "/bin/bash -c '../scripts/start.sh'"
 }
