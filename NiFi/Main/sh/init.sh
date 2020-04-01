@@ -47,11 +47,6 @@ chown -R nifi: ${CONF_DIR}
 }
 
 buildconf(){
-# If the user wants a custom consul config, fetch and use it from an HTTP/S location
-if [[ CONSUL_CONFIG_URL ]]; then
-  cp ${SCRIPTS_DIR}/make-nifi-config.hcl ${SCRIPTS_DIR}/make-nifi-config.hcl.orig
-  curl -fSL ${CONSUL_CONFIG_URL} -o ${SCRIPTS_DIR}/make-nifi-config.hcl
-fi
 
 # First run consul-template to get all the config templates
 ${SCRIPTS_DIR}/consul-template --config=${SCRIPTS_DIR}/fetch-config.hcl --config=${SCRIPTS_DIR}/general.hcl --once ${ct_conf}
@@ -61,7 +56,7 @@ ${SCRIPTS_DIR}/consul-template --config=${SCRIPTS_DIR}/render-config.hcl --confi
 
 # Make the certificates
 # TODO Get passwords from central vault instead of local cluster vault
-# TODO Adjust nifi.properties defualts to reflect TLS settings
+# TODO Adjust nifi.properties defaults to reflect TLS settings
 
 # Make a p12 bundle of the private key and certificate
 openssl pkcs12 -export -chain -CAfile ${CONF_DIR}/ca.crt -in ${CONF_DIR}/cert.crt -inkey ${CONF_DIR}/private_key.rsa -passout pass:${TLSPASS} > ${CONF_DIR}keystore.p12
