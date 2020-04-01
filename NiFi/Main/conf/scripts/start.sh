@@ -3,8 +3,10 @@
 # Licensed under the Apache 2.0 License
 # Martijn Dekkers <martijn@regulusdata.services>
 
+###
 # Load script variables
-scripts_dir='/opt/nifi/scripts'
+###
+# scripts_dir='/opt/nifi/scripts'
 # conf_dir="/mnt/mesos/sandbox/conf"
 
 # set bash debug
@@ -25,25 +27,18 @@ chown -R nifi: /opt/nifi/nifi-current/conf
 chown -R nifi: ${CONF_DIR}
 
 makecert(){
+  ###
+  # TODO Get passwords from central vault instead of local cluster vault
+  ###
+  # Make a p12 bundle of the private key and certificate
+  openssl pkcs12 -export -chain -CAfile ${CONF_DIR}/ca.crt -in ${CONF_DIR}/cert.crt -inkey ${CONF_DIR}/private_key.rsa -passout pass:${TLSPASS} > keystore.p12
 
-	mv "${HOSTNAME}"/keystore.jks "${NF_KEYS_PATH}"/keystore.jks
-	mv "${HOSTNAME}"/truststore.jks "${NF_KEYS_PATH}"/truststore.jks
+  # Import CA into the truststore
+  keytool -importcert -v -trustcacerts -alias root -file ca.crt -keystore truststore.jks -storepass ${TLSPASS} -noprompt
 
-	NIFI_SECURITY_KEYSTOREPASSWD="$(grep keystorePasswd "${HOSTNAME}"/nifi.properties | cut -d"=" -f2)"
-	NIFI_SECURITY_KEYPASSWD="$(grep keyPasswd "${HOSTNAME}"/nifi.properties | cut -d"=" -f2)"
-	NIFI_SECURITY_TRUSTSTOREPASSWD="$(grep truststorePasswd "${HOSTNAME}"/nifi.properties | cut -d"=" -f2)"
-	NIFI_SECURITY_KEYSTORETYPE="$(grep keystoreType "${HOSTNAME}"/nifi.properties | cut -d"=" -f2)"
-	NIFI_SECURITY_TRUSTSTORETYPE="$(grep truststoreType "${HOSTNAME}"/nifi.properties | cut -d"=" -f2)"
-	NIFI_SECURITY_TRUSTSTORE="${NF_KEYS_PATH}/truststore.jks"
-	NIFI_SECURITY_KEYSTORE="${NF_KEYS_PATH}/keystore.jks"
+  # Import the node certificate into the truststore
+  keytool -importcert -alias thisnode -file cert.crt -keystore truststore.jks -storepass ${TLSPASS} -noprompt
 
-	export NIFI_SECURITY_KEYSTOREPASSWD
-	export NIFI_SECURITY_KEYPASSWD
-	export NIFI_SECURITY_TRUSTSTOREPASSWD
-	export NIFI_SECURITY_KEYSTORETYPE
-	export NIFI_SECURITY_TRUSTSTORETYPE
-	export NIFI_SECURITY_TRUSTSTORE
-	export NIFI_SECURITY_KEYSTORE
 }
 
 makeconfig(){
@@ -93,7 +88,6 @@ showconfig
 if [[ ${DEBUG} == "True" ]]; then
 	set +x
 fi
-
 
 # Run NiFi
 "${NIFI_HOME}/bin/nifi.sh" run &

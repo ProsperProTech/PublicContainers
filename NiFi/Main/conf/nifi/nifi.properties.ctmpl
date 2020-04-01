@@ -155,8 +155,8 @@ nifi.sensitive.props.algorithm={{ keyOrDefault (print $keypath "nifi.sensitive.p
 nifi.sensitive.props.provider={{ keyOrDefault (print $keypath "nifi.sensitive.props.provider") "BC" }}
 nifi.sensitive.props.additional.keys={{ keyOrDefault (print $keypath "nifi.sensitive.props.additional.keys") "" }}
 
-nifi.security.keystore={{ keyOrDefault (print $keypath "nifi.security.keystore") "" }}
-nifi.security.keystoreType={{ keyOrDefault (print $keypath "nifi.security.keystoreType") "" }}
+nifi.security.keystore={{ keyOrDefault (print $keypath "nifi.security.keystore") "keystore.p12" }}
+nifi.security.keystoreType={{ keyOrDefault (print $keypath "nifi.security.keystoreType") "PKCS12" }}
 nifi.security.keystorePasswd={{ keyOrDefault (print $keypath "nifi.security.keystorePasswd") "" }}
 nifi.security.keyPasswd={{ keyOrDefault (print $keypath "nifi.security.keyPasswd") "" }}
 nifi.security.truststore={{ keyOrDefault (print $keypath "nifi.security.truststore") "" }}

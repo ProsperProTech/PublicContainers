@@ -30,7 +30,7 @@ ENV NIFI_HOME ${NIFI_BASE_DIR}/nifi-current
 ENV NIFI_LOG_DIR=${NIFI_HOME}/logs
 ENV NIFI_PID_DIR=${NIFI_HOME}/run
 
-ADD --chown=nifi:nifi conf/ ${NIFI_HOME}/conf/
+# ADD --chown=nifi:nifi conf/ ${NIFI_HOME}/conf/
 ADD --chown=nifi:nifi sh/ ${NIFI_BASE_DIR}/scripts/
 
 RUN echo "#!/bin/sh\n" > $NIFI_HOME/bin/nifi-env.sh
