@@ -37,4 +37,5 @@ RUN echo "#!/bin/sh\n" > $NIFI_HOME/bin/nifi-env.sh
 
 WORKDIR ${NIFI_HOME}
 
-CMD ["../scripts/init.sh"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["/bin/bash", "-c", "exec ../scripts/init.sh"]
