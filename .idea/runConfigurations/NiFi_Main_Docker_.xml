@@ -1,0 +1,45 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="NiFi Main Docker " type="docker-deploy" factoryName="dockerfile" singleton="false" server-name="Docker">
+    <deployment type="dockerfile">
+      <settings>
+        <option name="buildArgs">
+          <list>
+            <DockerEnvVarImpl>
+              <option name="name" value="FROMIMAGE" />
+              <option name="value" value="flowfabricator/nifi:base-1.9.2-2" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="IMGVERSION" />
+              <option name="value" value="1.9.2-4.4" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="BASE_URL" />
+              <option name="value" value="http://192.168.86.11:8000" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="NIFI_VERSION" />
+              <option name="value" value="1.9.2" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="UID" />
+              <option name="value" value="1000" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="GID" />
+              <option name="value" value="1000" />
+            </DockerEnvVarImpl>
+          </list>
+        </option>
+        <option name="buildCliOptions" value="" />
+        <option name="buildOnly" value="true" />
+        <option name="command" value="" />
+        <option name="containerName" value="" />
+        <option name="entrypoint" value="" />
+        <option name="imageTag" value="flowfabricator/nifi:main-1.9.2-4.4" />
+        <option name="commandLineOptions" value="" />
+        <option name="sourceFilePath" value="NiFi/Main/Dockerfile" />
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>
