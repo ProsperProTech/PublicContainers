@@ -69,7 +69,7 @@
     </userGroupProvider>
     {{ end }}
 
-    {{ if keyExists (print $keypath "AUTHORIZERS_CUGP" }}
+    {{ if keyExists (print $keypath "AUTHORIZERS_CUGP") }}
     <userGroupProvider>
         <identifier>composite-user-group-provider</identifier>
         <class>org.apache.nifi.authorization.CompositeUserGroupProvider</class>
