@@ -3,17 +3,6 @@
 # Martijn Dekkers <martijn@regulusdata.services>
 
 ###
-# Get the nifi start script from Consul
-###
-template {
-    contents = "{{ printf \"%s/start.sh.ctmpl\" (env \"SCRIPT_SRC_PATH\") | key }}"
-    destination = "/var/tmp/start.sh"
-    error_on_missing_key = true
-    command = "mv -f /var/tmp/start.sh ${SCRIPTS_DIR}/start.sh"
-
-}
-
-###
 # Fetch all the config templates from Consul
 ###
 template {
@@ -68,18 +57,18 @@ template {
 
 template {
     contents = "{{ printf \"%s/cert.ctmpl\" (env \"TLS_TMPL_SRC_PATH\") | key }}"
-    destination = "/var/tmp/cert.crt"
+    destination = "/var/tmp/cert.crt.ctmpl"
     error_on_missing_key = true
 }
 
 template {
     contents = "{{ printf \"%s/ca.ctmpl\" (env \"TLS_TMPL_SRC_PATH\") | key }}"
-    destination = "/var/tmp/ca.crt"
+    destination = "/var/tmp/ca.crt.ctmpl"
     error_on_missing_key = true
 }
 
 template {
     contents = "{{ printf \"%s/private_key.ctmpl\" (env \"TLS_TMPL_SRC_PATH\") | key }}"
-    destination = "/var/tmp/private_key.rsa"
+    destination = "/var/tmp/private_key.rsa.ctmpl"
     error_on_missing_key = true
 }
