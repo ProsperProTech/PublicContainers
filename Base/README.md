@@ -10,8 +10,7 @@ Most container runtimes run whatever is executed in their container as PID1, whi
 special handling. Many services are currently not really designed to be run as PID1. You need an init system to 
 handle PID1 particulars, that properly hands off to whatever service you want to run. 
 
-Container Pilot was designed to integrate with Hashicorps' Consul for configuration management, service discovery
-and Service Mesh capabilities. To use this image, having a Consul cluster up and running is handy. 
+ContainerPilot is an init system designed to live inside the container. It acts as a process supervisor, reaps zombies, run health checks, registers the app in the service catalog, watches the service catalog for changes, and runs your user-specified code at events in the lifecycle of the container to make it all work right. ContainerPilot uses Consul to coordinate global state among the application containers. To use this image, having a Consul cluster up and running is handy. 
 It is possible to run without Consul but this needs to be dealt with in the configuration.
 
 Subdirectories hold dockerfiles for runtime images that are built on the base image.     
