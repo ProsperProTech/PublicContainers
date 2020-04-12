@@ -2,12 +2,24 @@
   <configuration default="false" name="Base/Dockerfile" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
     <deployment type="dockerfile">
       <settings>
+        <option name="buildArgs">
+          <list>
+            <DockerEnvVarImpl>
+              <option name="name" value="http_proxy" />
+              <option name="value" value="&quot;http://172.28.133.153:5865&quot;" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="https_proxy" />
+              <option name="value" value="&quot;http://172.28.133.153:5865&quot;" />
+            </DockerEnvVarImpl>
+          </list>
+        </option>
         <option name="buildCliOptions" value="" />
         <option name="buildOnly" value="true" />
         <option name="command" value="" />
         <option name="containerName" value="" />
         <option name="entrypoint" value="" />
-        <option name="imageTag" value="flowfabricator/base:1.0.1" />
+        <option name="imageTag" value="flowfabricator/base:2.0.0" />
         <option name="commandLineOptions" value="" />
         <option name="sourceFilePath" value="Base/Dockerfile" />
       </settings>

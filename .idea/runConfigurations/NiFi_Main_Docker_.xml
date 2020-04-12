@@ -10,11 +10,7 @@
             </DockerEnvVarImpl>
             <DockerEnvVarImpl>
               <option name="name" value="IMGVERSION" />
-              <option name="value" value="1.9.2-4.4" />
-            </DockerEnvVarImpl>
-            <DockerEnvVarImpl>
-              <option name="name" value="BASE_URL" />
-              <option name="value" value="http://192.168.86.11:8000" />
+              <option name="value" value="1.9.2-5.0" />
             </DockerEnvVarImpl>
             <DockerEnvVarImpl>
               <option name="name" value="NIFI_VERSION" />
@@ -35,7 +31,7 @@
         <option name="command" value="" />
         <option name="containerName" value="" />
         <option name="entrypoint" value="" />
-        <option name="imageTag" value="flowfabricator/nifi:main-1.9.2-4.4" />
+        <option name="imageTag" value="flowfabricator/nifi:main-1.9.2-5.0" />
         <option name="commandLineOptions" value="" />
         <option name="sourceFilePath" value="NiFi/Main/Dockerfile" />
       </settings>
