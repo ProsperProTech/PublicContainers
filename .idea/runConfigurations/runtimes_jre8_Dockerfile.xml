@@ -7,7 +7,7 @@
           <list>
             <DockerEnvVarImpl>
               <option name="name" value="FROMIMAGE" />
-              <option name="value" value="flowfabricator/base:2.1.0" />
+              <option name="value" value="flowfabricator/base:2.1.1" />
             </DockerEnvVarImpl>
             <DockerEnvVarImpl>
               <option name="name" value="IMGVERSION" />

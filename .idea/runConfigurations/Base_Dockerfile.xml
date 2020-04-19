@@ -2,12 +2,12 @@
   <configuration default="false" name="Base/Dockerfile" type="docker-deploy" factoryName="dockerfile" server-name="mainws docker">
     <deployment type="dockerfile">
       <settings>
-        <option name="imageTag" value="2.1.0" />
+        <option name="imageTag" value="2.1.1" />
         <option name="buildArgs">
           <list>
             <DockerEnvVarImpl>
               <option name="name" value="IMGVERSION" />
-              <option name="value" value="2.1.0" />
+              <option name="value" value="2.1.1" />
             </DockerEnvVarImpl>
             <DockerEnvVarImpl>
               <option name="name" value="FROMIMAGE" />
