@@ -11,7 +11,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM debian:buster-slim
+ARG FROMIMAGE
+FROM ${FROMIMAGE}
 ARG IMGVERSION
 
 LABEL org.label-schema.name="Regulus Data Services Base Container"

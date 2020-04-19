@@ -1,17 +1,17 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Base/Dockerfile" type="docker-deploy" factoryName="dockerfile" server-name="mainws docker">
+  <configuration default="false" name="runtimes:jre8 Dockerfile" type="docker-deploy" factoryName="dockerfile" server-name="mainws docker">
     <deployment type="dockerfile">
       <settings>
-        <option name="imageTag" value="2.1.0" />
+        <option name="imageTag" value="flowfabricator/runtimes:jre8-1.0.2" />
         <option name="buildArgs">
           <list>
             <DockerEnvVarImpl>
-              <option name="name" value="IMGVERSION" />
-              <option name="value" value="2.1.0" />
+              <option name="name" value="FROMIMAGE" />
+              <option name="value" value="flowfabricator/base:2.1.0" />
             </DockerEnvVarImpl>
             <DockerEnvVarImpl>
-              <option name="name" value="FROMIMAGE" />
-              <option name="value" value="debian:buster-slim" />
+              <option name="name" value="IMGVERSION" />
+              <option name="value" value="1.0.2" />
             </DockerEnvVarImpl>
           </list>
         </option>
@@ -21,7 +21,7 @@
         <option name="containerName" value="" />
         <option name="entrypoint" value="" />
         <option name="commandLineOptions" value="" />
-        <option name="sourceFilePath" value="Base/Dockerfile" />
+        <option name="sourceFilePath" value="Runtimes/jre8/Dockerfile" />
       </settings>
     </deployment>
     <method v="2" />

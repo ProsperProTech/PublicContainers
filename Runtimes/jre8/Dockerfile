@@ -11,7 +11,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM flowfabricator/base:1.0.1
+ARG FROMIMAGE
+FROM ${FROMIMAGE}
+ARG IMGVERSION
+
+LABEL org.label-schema.name="Regulus Data Services JRE8 Container"
+LABEL org.label-schema.description="JRE8 Runtime layer"
+LABEL org.label-schema.url="https://github.com/RegulusDataServices/PublicContainers/tree/master/Runtimes/jre8/README.md"
+LABEL org.label-schema.vcs-url="https://github.com/RegulusDataServices/PublicContainers"
+LABEL org.label-schema.vendor="Regulus Data Services"
+LABEL org.label-schema.version=${IMGVERSION}
+LABEL services.regulusdata.maintainer="Martijn Dekkers <martijn@regulusdata.services>"
+LABEL services.regulusdata.copyright="Copyright (c) 2020 Regulus Data Services"
 
 ENV LANG C.UTF-8
 ENV JAVA_HOME /usr/local/openjdk-8
