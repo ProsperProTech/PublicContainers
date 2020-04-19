@@ -68,5 +68,3 @@ RUN curl -fSL ${BASE_URL}/${NIFI_BINARY_PATH} -o ${NIFI_BASE_DIR}/nifi-${NIFI_VE
 
 # Delete the nifi.properties file
 RUN rm ${NIFI_HOME}/conf/nifi.properties
-
-USER nifi
