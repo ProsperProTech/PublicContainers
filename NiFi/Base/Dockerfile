@@ -16,11 +16,14 @@ ARG FROMIMAGE
 FROM ${FROMIMAGE}
 ARG IMGVERSION
 
-LABEL maintainer="Martijn Dekkers <martijn@regulusdata.services>"
-LABEL copyright="Copyright (c) 2020 Regulus Data Services"
-LABEL vendor="Regulus Data Services"
-LABEL version=${IMGVERSION}
-LABEL site="https://www.regulusdata.services"
+LABEL org.label-schema.name="Regulus Data Services Base NiFi Container"
+LABEL org.label-schema.description="Base NiFi layer, does not include the infrastructure to make it run."
+LABEL org.label-schema.url="https://github.com/RegulusDataServices/PublicContainers/tree/master/NiFi/Base/README.md"
+LABEL org.label-schema.vcs-url="https://github.com/RegulusDataServices/PublicContainers"
+LABEL org.label-schema.vendor="Regulus Data Services"
+LABEL org.label-schema.version=${IMGVERSION}
+LABEL services.regulusdata.maintainer="Martijn Dekkers <martijn@regulusdata.services>"
+LABEL services.regulusdata.copyright="Copyright (c) 2020 Regulus Data Services"
 
 ARG NIFI_VERSION
 ARG BASE_URL
@@ -65,11 +68,3 @@ RUN curl -fSL ${BASE_URL}/${NIFI_BINARY_PATH} -o ${NIFI_BASE_DIR}/nifi-${NIFI_VE
 
 # Delete the nifi.properties file
 RUN rm ${NIFI_HOME}/conf/nifi.properties
-
-# Move the apt stuff to the end to benefit from caching the large nifi image
-USER root
-
-RUN apt-get update \
-    && apt-get install -y procps dumb-init
-
-USER nifi

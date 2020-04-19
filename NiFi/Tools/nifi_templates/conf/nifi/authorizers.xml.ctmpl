@@ -1,0 +1,106 @@
+{{ $keypath := env "AUTHORIZERS_XML_KPATH" }}
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<authorizers>
+
+    <userGroupProvider>
+        <identifier>file-user-group-provider</identifier>
+        <class>org.apache.nifi.authorization.FileUserGroupProvider</class>
+        <property name="Users File">{{ keyOrDefault (print $keypath "AUTHORIZERS_UGP_UF") "./conf/users.xml" }}</property>
+        <property name="Legacy Authorized Users File">{{ keyOrDefault (print $keypath "AUTHORIZERS_UGP_LEGACY_AUF") "" }}</property>
+        <property name="Initial User Identity 1">{{ keyOrDefault (print $keypath "AUTHORIZERS_UGP_IUI1") "" }}</property>
+    </userGroupProvider>
+
+    {{ if keyExists (print $keypath "AUTHORIZERS_LDAP_UGP") }}
+    <userGroupProvider>
+        <identifier>ldap-user-group-provider</identifier>
+        <class>org.apache.nifi.ldap.tenants.LdapUserGroupProvider</class>
+        <property name="Authentication Strategy">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_AUTH_STRAT") "START_TLS" }}</property>
+
+        <property name="Manager DN">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_MGR_DN") "" }}</property>
+        <property name="Manager Password">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_MGR_PWD") "" }}</property>
+
+        <property name="TLS - Keystore">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_TLS_KS") "" }}</property>
+        <property name="TLS - Keystore Password">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_TLS_KS_PWD") "" }}</property>
+        <property name="TLS - Keystore Type">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_TLS_KS_TYPE") "" }}</property>
+        <property name="TLS - Truststore">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_TLS_TS") "" }}</property>
+        <property name="TLS - Truststore Password">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_TLS_TS_PWD") "" }}</property>
+        <property name="TLS - Truststore Type">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_TLS_TS_TYPE") "" }}</property>
+        <property name="TLS - Client Auth">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_TLS_CLIENT_AUTH") "" }}</property>
+        <property name="TLS - Protocol">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_TLS_PROT") "" }}</property>
+        <property name="TLS - Shutdown Gracefully">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_TLS_SHUT_GRACE") "" }}</property>
+
+        <property name="Referral Strategy">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_REF_STRAT") "FOLLOW" }}</property>
+        <property name="Connect Timeout">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_CONN_TO") "10 secs" }}</property>
+        <property name="Read Timeout">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_READ_TO") "10 secs" }}</property>
+
+        <property name="Url">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_URL") "" }}</property>
+        <property name="Page Size">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_PAGE_SIZE") "" }}</property>
+        <property name="Sync Interval">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_SYNC_INT") "30 mins" }}</property>
+
+        <property name="User Search Base">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_USR_SEARCH_BASE") "" }}</property>
+        <property name="User Object Class">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_USR_OBJ_CLS") "person" }}</property>
+        <property name="User Search Scope">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_USR_SEARCH_SCOPE") "ONE_LEVEL" }}</property>
+        <property name="User Search Filter">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_USR_SEARCH_FILT") "" }}</property>
+        <property name="User Identity Attribute">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_USR_ID_ATT") "" }}</property>
+        <property name="User Group Name Attribute">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_USR_GN_ATT") "" }}</property>
+        <property name="User Group Name Attribute - Referenced Group Attribute">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_USR_GN_AT_REF") "" }}</property>
+
+        <property name="Group Search Base">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_GRP_SEARCH_BASE") "" }}</property>
+        <property name="Group Object Class">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_GRP_OBJ_CLS") "group" }}</property>
+        <property name="Group Search Scope">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_GRP_SEARCH_SCOPE") "ONE_LEVEL" }}</property>
+        <property name="Group Search Filter">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_GRP_SEARCH_FILT") "" }}</property>
+        <property name="Group Name Attribute">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_GRP_ID_ATT") "" }}</property>
+        <property name="Group Member Attribute">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_GRP_MEM_ATT") "" }}</property>
+        <property name="Group Member Attribute - Referenced User Attribute">{{ keyOrDefault (print $keypath "AUTHORIZERS_LDAP_GRP_MEM_ATT_REF") "" }}</property>
+    </userGroupProvider>
+    {{ end }}
+
+    {{ if keyExists (print $keypath "AUTHORIZERS_CUGP") }}
+    <userGroupProvider>
+        <identifier>composite-user-group-provider</identifier>
+        <class>org.apache.nifi.authorization.CompositeUserGroupProvider</class>
+        <property name="User Group Provider 1">{{ keyOrDefault (print $keypath "AUTHORIZERS_UGP_CUGP_1") "" }}</property>
+    </userGroupProvider>
+    {{ end }}
+
+    {{ if keyExists (print $keypath "AUTHORIZERS_CCUGP" }}
+    <userGroupProvider>
+        <identifier>composite-configurable-user-group-provider</identifier>
+        <class>org.apache.nifi.authorization.CompositeConfigurableUserGroupProvider</class>
+        <property name="Configurable User Group Provider">{{ keyOrDefault (print $keypath "AUTHORIZERS_UGP_COMP_CUGP") "file-user-group-provider" }}</property>
+        <property name="User Group Provider 1">{{ keyOrDefault (print $keypath "AUTHORIZERS_COMP_UGP") "" }}</property>
+    </userGroupProvider>
+    {{ end }}
+
+    <accessPolicyProvider>
+        <identifier>file-access-policy-provider</identifier>
+        <class>org.apache.nifi.authorization.FileAccessPolicyProvider</class>
+        <property name="User Group Provider">{{ keyOrDefault (print $keypath "AUTHORIZERS_APP_FAPP_UGP") "file-user-group-provider" }}</property>
+        <property name="Authorizations File">{{ keyOrDefault (print $keypath "AUTHORIZERS_APP_FAPP_AF") "./conf/authorizations.xml" }}</property>
+        <property name="Initial Admin Identity">{{ keyOrDefault (print $keypath "AUTHORIZERS_APP_FAPP_IAI") "" }}</property>
+        <property name="Legacy Authorized Users File">{{ keyOrDefault (print $keypath "AUTHORIZERS_APP_FAPP_LAUF") "" }}</property>
+        <property name="Node Identity 1">{{ keyOrDefault (print $keypath "AUTHORIZERS_APP_FAPP_NI_1") "" }}</property>
+        <property name="Node Group">{{ keyOrDefault (print $keypath "AUTHORIZERS_APP_FAPP_NG") "" }}</property>
+    </accessPolicyProvider>
+
+    <authorizer>
+        <identifier>managed-authorizer</identifier>
+        <class>org.apache.nifi.authorization.StandardManagedAuthorizer</class>
+        <property name="Access Policy Provider">{{ keyOrDefault (print $keypath "AUTHORIZERS_AUTHZ_MA_APP") "file-access-policy-provider" }}</property>
+    </authorizer>
+
+</authorizers>

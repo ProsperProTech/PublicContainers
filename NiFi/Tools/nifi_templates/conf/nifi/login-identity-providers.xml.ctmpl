@@ -1,0 +1,61 @@
+{{ $keypath := env "LOGIN_IDENTITY_PROVIDERS_XML_KPATH" }}
+{{ $tlspwd := env "LOGINIDPROV_LDAP_TLS_KS_PWD" }}
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<loginIdentityProviders>
+    {{ if keyExists (print $keypath "LOGINIDPROV_LDAP") }}
+    <provider>
+        <identifier>ldap-provider</identifier>
+        <class>org.apache.nifi.ldap.LdapProvider</class>
+        <property name="Authentication Strategy">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_AUTH_STRAT") "START_TLS" }}</property>
+
+        <property name="Manager DN">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_MGR_DN") "" }}</property>
+        <property name="Manager Password">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_MGR_PWD") "" }}</property>
+
+        <property name="TLS - Keystore">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_TLS_KS") "" }}</property>
+        <property name="TLS - Keystore Password">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_TLS_KS_PWD") $tlspwd }}</property>
+        <property name="TLS - Keystore Type">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_TLS_KS_TYPE") "" }}</property>
+        <property name="TLS - Truststore">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_TLS_TS") "" }}</property>
+        <property name="TLS - Truststore Password">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_TLS_TS_PWD") "" }}</property>
+        <property name="TLS - Truststore Type">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_TLS_TS_TYPE") "" }}</property>
+        <property name="TLS - Client Auth">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_TLS_CLIENT_AUTH") "" }}</property>
+        <property name="TLS - Protocol">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_TLS_PROT") "" }}</property>
+        <property name="TLS - Shutdown Gracefully">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_TLS_SHUT_GRACE") "" }}</property>
+
+        <property name="Referral Strategy">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_REF_STRAT") "FOLLOW" }}</property>
+        <property name="Connect Timeout">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_CONN_TO") "10 secs" }}</property>
+        <property name="Read Timeout">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_READ_TO") "10 secs" }}</property>
+
+        <property name="Url">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_URL") "" }}</property>
+
+        <property name="User Search Base">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_USR_SEARCH_BASE") "" }}</property>
+        <property name="User Search Filter">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_USR_SEARCH_FILT") "" }}</property>
+
+        <property name="Identity Strategy">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_ID_STRAT") "USE_DN" }}</property>
+        <property name="Authentication Expiration">{{ keyOrDefault (print $keypath "LOGINIDPROV_LDAP_AUTH_EXPT") "12 hours" }}</property>
+    </provider>
+    {{ end }}
+
+    {{ if keyExists (print $keypath "LOGINIDPROV_KRB") }}
+    <provider>
+        <identifier>kerberos-provider</identifier>
+        <class>org.apache.nifi.kerberos.KerberosProvider</class>
+        <property name="Default Realm">{{ keyOrDefault (print $keypath "LOGINIDPROV_KRB_DEF_REALM") "NIFI.APACHE.ORG" }}</property>
+        <property name="Authentication Expiration">{{ keyOrDefault (print $keypath "LOGINIDPROV_KRB_AUTH_EXP") "12 hours" }}</property>
+    </provider>
+    {{ end }}
+</loginIdentityProviders>

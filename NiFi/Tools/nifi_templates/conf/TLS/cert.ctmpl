@@ -1,0 +1,10 @@
+{{- $keypath := env "CERT_CONF_KPATH" -}}
+{{- $capath := env "CA_PATH" -}}
+{{- $cn := key (print $keypath "common_name") -}}
+{{- $common_name := printf "common_name=%s" $cn -}}
+{{- $alt := keyOrDefault (print $keypath "dns_san") "" -}}
+{{- $alt_names := printf "alt_names=%s" $alt -}}
+{{- with secret $capath $common_name $alt_names -}}
+{{- .Data.certificate -}}{{- end -}}
+
+

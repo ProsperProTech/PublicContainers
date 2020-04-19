@@ -16,26 +16,25 @@ ARG FROMIMAGE
 FROM ${FROMIMAGE}
 ARG IMGVERSION
 
-LABEL maintainer="Martijn Dekkers <martijn@regulusdata.services>"
-LABEL copyright="Copyright (c) 2020 Regulus Data Services"
-LABEL vendor="Regulus Data Services"
-LABEL version=${IMGVERSION}
-LABEL site="https://www.regulusdata.services"
-
-ARG UID=${UID}
-ARG GID=${GID}
+LABEL org.label-schema.name="Regulus Data Services Main NiFi Container"
+LABEL org.label-schema.description="Main NiFi image. This requires Consul and Vault to work."
+LABEL org.label-schema.url="https://github.com/RegulusDataServices/PublicContainers/tree/master/NiFi/Main/README.md"
+LABEL org.label-schema.vcs-url="https://github.com/RegulusDataServices/PublicContainers"
+LABEL org.label-schema.vendor="Regulus Data Services"
+LABEL org.label-schema.version=${IMGVERSION}
+LABEL services.regulusdata.maintainer="Martijn Dekkers <martijn@regulusdata.services>"
+LABEL services.regulusdata.copyright="Copyright (c) 2020 Regulus Data Services"
 
 ENV NIFI_BASE_DIR=/opt/nifi
 ENV NIFI_HOME ${NIFI_BASE_DIR}/nifi-current
 ENV NIFI_LOG_DIR=${NIFI_HOME}/logs
 ENV NIFI_PID_DIR=${NIFI_HOME}/run
 
-# ADD --chown=nifi:nifi conf/ ${NIFI_HOME}/conf/
-ADD --chown=nifi:nifi sh/ ${NIFI_BASE_DIR}/scripts/
+ADD --chown=nifi:nifi scripts/init.sh ${NIFI_BASE_DIR}/scripts/init.sh
 
 RUN echo "#!/bin/sh\n" > $NIFI_HOME/bin/nifi-env.sh
 
 WORKDIR ${NIFI_HOME}
 
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["/bin/bash", "-c", "exec ../scripts/init.sh"]
+ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
+CMD ["/bin/bash", "-c", "exec ${NIFI_BASE_DIR}/scripts/init.sh"]
