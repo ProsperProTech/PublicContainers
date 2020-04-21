@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/PublicContainers.iml" filepath="$PROJECT_DIR$/.idea/PublicContainers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../tennet-nifi/.idea/tennet-nifi.iml" filepath="$PROJECT_DIR$/../tennet-nifi/.idea/tennet-nifi.iml" />
     </modules>
   </component>
 </project>
