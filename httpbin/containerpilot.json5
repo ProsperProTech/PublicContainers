@@ -1,0 +1,28 @@
+{
+  consul: "{{- .CONSUL_HTTP_ADDR -}}",
+  logging: {
+    level: "{{- .LOGLEVEL }}",
+    format: "text",
+    output: "stdout"
+  },
+  control: {
+    socket: "/var/run/containerpilot.socket"
+  },
+  jobs: [
+    {
+      name: "httpbin",
+      exec: ["gunicorn", "-b", "0.0.0.0:{{- .PORT }}", "httpbin:app", "-k", "gevent"],
+      restarts: "unlimited",
+      port: "{{ .PORT }}",
+      health: {
+        exec: "/usr/bin/curl --fail -s -o /dev/null http://127.0.0.1:{{- .PORT }}/anything",
+        interval: 5,
+        ttl: 10,
+        timeout: "5s",
+      },
+      tags: [
+        "httpbin"
+      ],
+    }
+  ]
+}
