@@ -1,0 +1,41 @@
+{
+  consul: "{{- .CONSUL_HTTP_ADDR -}}",
+  logging: {
+    level: "{{- .LOGLEVEL }}",
+    format: "text",
+    output: "stdout"
+  },
+  control: {
+    socket: "/var/run/containerpilot.socket"
+  },
+  jobs: [
+    {
+      // Get the Traefik TOML
+      name: "prestart-fetch",
+      restarts: "never",
+      exec: ["/bin/bash", "-c", "/usr/local/bin/consul kv get ${SCRIPT_SRC_PATH}/traefik.toml > /traefik.toml"]
+    },
+    {
+      // Run Traefik
+      name: "edgeproxy",
+      exec: ["traefik", "--configFile=/traefik.toml"],
+      when: {
+        source: "prestart-fetch",
+        once: "exitSuccess"
+      },
+      restarts: "2",
+      port: "{{ .PORT }}",
+      health: {
+        exec: "traefik healthcheck",
+        interval: 5,
+        ttl: 10,
+        timeout: "5s",
+      },
+      tags: [
+        "edgeproxy",
+        // "traefik.http.routers.api.rule=Host(`xxx`)",
+        // "traefik.http.routers.api.service=api@internal"
+      ]
+    }
+  ]
+}
