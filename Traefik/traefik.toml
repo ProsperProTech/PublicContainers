@@ -1,0 +1,25 @@
+[global]
+  sendAnonymousUsage = false
+
+[entryPoints]
+  [entryPoints.traefik]
+    address = ":8188"
+
+[providers]
+  [providers.consulCatalog]
+		prefix="traefik"
+		exposedByDefault = false
+		[providers.consulCatalog.endpoint]
+			address="xxx:8500"
+      token = "xxx"
+			[providers.consulCatalog.endpoint.tls]
+				insecureSkipVerify = true
+
+[accessLog]
+
+[ping]
+  entryPoint = "traefik"
+
+[api]
+  insecure = true
+  dashboard = true

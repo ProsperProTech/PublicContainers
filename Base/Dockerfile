@@ -26,7 +26,7 @@ LABEL services.regulusdata.copyright="Copyright (c) 2020 Regulus Data Services"
 
 RUN apt-get update -y \
     && apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends curl dirmngr gnupg wget	ca-certificates p11-kit	unzip procps; \
+    && apt-get install -y --no-install-recommends curl dirmngr gnupg wget	ca-certificates p11-kit	unzip procps tzdata; \
 		rm -rf /var/lib/apt/lists/*
 
 # Get ContainerPilot, Consul, Vault, Consul Template, and dumb-init
