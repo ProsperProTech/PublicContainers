@@ -16,9 +16,9 @@ ARG FROMIMAGE
 FROM ${FROMIMAGE}
 ARG IMGVERSION
 
-LABEL org.label-schema.name="Regulus Data Services Base NiFi Container"
-LABEL org.label-schema.description="Base NiFi layer, does not include the infrastructure to make it run."
-LABEL org.label-schema.url="https://github.com/RegulusDataServices/PublicContainers/tree/master/NiFi/Base/README.md"
+LABEL org.label-schema.name="Regulus Data Services Base NiFi Registry Container"
+LABEL org.label-schema.description="Base NiFi Registry layer, does not include the infrastructure to make it run."
+LABEL org.label-schema.url="https://github.com/RegulusDataServices/PublicContainers/tree/master/NiFi Registry/Base/README.md"
 LABEL org.label-schema.vcs-url="https://github.com/RegulusDataServices/PublicContainers"
 LABEL org.label-schema.vendor="Regulus Data Services"
 LABEL org.label-schema.version=${IMGVERSION}
@@ -27,7 +27,7 @@ LABEL services.regulusdata.copyright="Copyright (c) 2020 Regulus Data Services"
 
 ARG NIFI_VERSION
 ARG BASE_URL
-ARG NIFI_BINARY_PATH=${NIFI_BINARY_PATH:-nifi/${NIFI_VERSION}/nifi-registry-${NIFI_VERSION}-bin.tar.gz}
+ARG NIFI_BINARY_PATH=${NIFI_BINARY_PATH:-nifi/nifi-registry-${NIFI_VERSION}/nifi-registry-${NIFI_VERSION}-bin.tar.gz}
 
 ENV NIFI_BASE_DIR=/opt/nifi
 ENV NIFI_HOME ${NIFI_BASE_DIR}/nifi-current
@@ -45,10 +45,10 @@ RUN groupadd -g ${GID} nifi || groupmod -n nifi `getent group ${GID} | cut -d: -
 
 USER nifi
 
-RUN curl -fSL ${BASE_URL}/${NIFI_BINARY_PATH} -o ${NIFI_BASE_DIR}/nifi-${NIFI_VERSION}-bin.tar.gz \
-    && tar -zxvf ${NIFI_BASE_DIR}/nifi-${NIFI_VERSION}-bin.tar.gz -C ${NIFI_BASE_DIR} \
-    && rm ${NIFI_BASE_DIR}/nifi-${NIFI_VERSION}-bin.tar.gz \
-    && mv ${NIFI_BASE_DIR}/nifi-${NIFI_VERSION} ${NIFI_HOME} \
+RUN curl -fSL ${BASE_URL}/${NIFI_BINARY_PATH} -o ${NIFI_BASE_DIR}/nifi-registry-${NIFI_VERSION}-bin.tar.gz \
+    && tar -zxvf ${NIFI_BASE_DIR}/nifi-registry-${NIFI_VERSION}-bin.tar.gz -C ${NIFI_BASE_DIR} \
+    && rm ${NIFI_BASE_DIR}/nifi-registry-${NIFI_VERSION}-bin.tar.gz \
+    && mv ${NIFI_BASE_DIR}/nifi-registry-${NIFI_VERSION} ${NIFI_HOME} \
     && mkdir -p ${NIFI_HOME}/conf \
     && mkdir -p ${NIFI_HOME}/database_repository \
     && mkdir -p ${NIFI_HOME}/flowfile_repository \
