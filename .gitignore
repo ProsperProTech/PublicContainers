@@ -2,3 +2,5 @@
 .gitignore
 .idea/workspace.xml
 venv
+workspace.xml
+misc.xml
